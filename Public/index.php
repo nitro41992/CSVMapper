@@ -6,4 +6,4 @@
  * Time: 9:23 PM
  */
 
-echo 'Test';
+echo 'Test Github integration.';
