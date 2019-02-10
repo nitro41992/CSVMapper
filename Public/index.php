@@ -13,11 +13,9 @@ class main {
 
     static public function start() {
             $file = '/home/kuchiman/Documents/Test.csv';
-            //print_r ($file);
             $records = csv::getRecords($file);
-            print_r($records);
-            //$table = html::generateTable($records);
-            //system::printPage($table);
+            system::printPage($records);
+
     }
 
 }
@@ -25,7 +23,7 @@ class main {
 class csv {
     static public function getRecords($fileName) {
         if (file_exists($fileName)){
-            //echo ('exists');
+
             $file = fopen($fileName, 'r');
             $parsedData= fread($file, filesize($fileName));
             fclose($file);
@@ -35,7 +33,9 @@ class csv {
 
             $items[] = array();
             foreach ($rows as $row) {
+
                 $items[] = explode(',',trim($row));
+
             }
 
             return($items);
@@ -58,9 +58,9 @@ class html{
 
 
 class system{
-    static public function printPage($page) {
+    static public function printPage($value) {
 
-        echo($page);
+        print_r($value);
 
     }
 
