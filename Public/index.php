@@ -14,7 +14,7 @@ class main {
     static public function start() {
             $file = '/home/kuchiman/Documents/Test.csv';
             //print_r ($file);
-            $records[] = csv::getRecords($file);
+            $records = csv::getRecords($file);
             print_r($records);
             //$table = html::generateTable($records);
             //system::printPage($table);
@@ -27,12 +27,16 @@ class csv {
         if (file_exists($fileName)){
             //echo ('exists');
 
-            $readFile = file_get_contents($fileName);
+            $parsedData= file_get_contents($fileName);
+            $rows = explode(PHP_EOL, trim($parsedData));
 
-            
-            $record[] = explode(',', $readFile);
 
-            return($record);
+            $items[] = array();
+            foreach ($rows as $row) {
+                $items[] = explode(',',trim($row));
+            }
+
+            return($items);
 
         } else {
 
