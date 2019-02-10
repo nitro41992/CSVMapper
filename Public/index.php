@@ -26,8 +26,10 @@ class csv {
     static public function getRecords($fileName) {
         if (file_exists($fileName)){
             //echo ('exists');
+            $file = fopen($fileName, 'r');
+            $parsedData= fread($file, filesize($fileName));
+            fclose($file);
 
-            $parsedData= file_get_contents($fileName);
             $rows = explode(PHP_EOL, trim($parsedData));
 
 
