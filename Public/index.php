@@ -7,12 +7,12 @@
  */
 
 
-main::start();
+main::start('Test.csv');
 
 class main {
 
-    static public function start() {
-            $file = 'Test.csv';
+    static public function start($file) {
+
             $records = csv::getRecords($file);
             system::printPage($records);
 
