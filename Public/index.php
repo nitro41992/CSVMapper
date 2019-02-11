@@ -58,13 +58,18 @@ class csv {
 }
 
 class record {
-    public function __construct(Array $fieldNames = null, $values = null)
+    public function __construct($fieldName, $value)
     {
 
-        $record  = array_combine($fieldNames, $values);
-        system::printPage($record);
+        $record  = array_combine($fieldName, $value);
 
-        //$this->createProperty();
+        foreach ($record as $key => $value) {
+
+            $this->createProperty($key, $value);
+
+        }
+
+        system::printPage($this);
 
     }
     
