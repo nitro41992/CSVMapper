@@ -12,7 +12,7 @@ main::start();
 class main {
 
     static public function start() {
-            $file = '/home/kuchiman/Documents/Test.csv';
+            $file = 'Test.csv';
             $records = csv::getRecords($file);
             system::printPage($records);
 
@@ -25,24 +25,21 @@ class csv {
         if (file_exists($fileName)){
 
             $file = fopen($fileName, 'r');
-            $parsedData= fread($file, filesize($fileName));
-            fclose($file);
 
-            $rows = explode(PHP_EOL, trim($parsedData));
+            $records = array();
+            while(! feof($file)) {
 
-
-            $items[] = array();
-            foreach ($rows as $row) {
-
-                $items[] = explode(',',trim($row));
+                $record = fgetcsv($file);
+                $records[] = $record;
 
             }
 
-            return($items);
+            fclose($file);
+            return $records;
 
         } else {
 
-            echo('not exist');
+            echo('The file does not exist.');
 
         }
     }
