@@ -9,21 +9,26 @@
 
 main::start('Test.csv');
 
-class main {
-    static public function start($file) {
+class main
+{
+    static public function start($file)
+    {
 
         $records = csv::getRecords($file);
+        $table = html::generateTable($records);
+        system::printPage($table);
 
-        //system::printPage($records);
 
     }
 
 }
 
-class csv {
-    static public function getRecords($fileName) {
+class csv
+{
+    static public function getRecords($fileName)
+    {
 
-        if (file_exists($fileName)){
+        if (file_exists($fileName)) {
 
             $file = fopen($fileName, 'r');
 
@@ -31,21 +36,20 @@ class csv {
             $count = 0;
 
 
-            $records = array();
-            while((! feof($file) and ($record = fgetcsv($file)) !== FALSE)) {
+            $records = null;
+            while ((!feof($file) and ($record = fgetcsv($file)) !== FALSE)) {
 
-                if($count == 0) {
+                if ($count == 0) {
                     $fieldNames = $record;
 
-                }else{
-                    $records = recordFactory::create($fieldNames, $record);
+                } else {
+                    $records[] = recordFactory::create($fieldNames, $record);
                 }
                 $count++;
 
             }
 
             fclose($file);
-            //system::printPage($records);
             return $records;
 
         } else {
@@ -57,31 +61,40 @@ class csv {
 
 }
 
-class record {
-    public function __construct($fieldName, $value)
+class record
+{
+    public function __construct(Array $fieldNames = null, Array $values = null)
     {
 
-        $record  = array_combine($fieldName, $value);
+        $record = array_combine($fieldNames, $values);
 
         foreach ($record as $key => $value) {
 
             $this->createProperty($key, $value);
 
         }
-
-        system::printPage($this);
-        return $this;
     }
-    
-    public function createProperty($name = null, $value = null){
+
+    public function returnArray()
+    {
+        $array = (array) $this;
+        return($array) ;
+
+    }
+
+    public function createProperty($name = null, $value = null)
+    {
         $this->{$name} = $value;
 
     }
 
+
 }
 
-class recordFactory{
-    public static function create(Array $fieldNames = null, Array $values = null) {
+class recordFactory
+{
+    public static function create(Array $fieldNames = null, Array $values = null)
+    {
 
         $record = new record($fieldNames, $values);
         return $record;
@@ -90,18 +103,25 @@ class recordFactory{
 }
 
 
+class html
+{
+    static public function generateTable($records)
+    {
+        $array = null;
+        foreach ($records as $record) {
+            $array[] = $record->returnArray();
+        }
 
-class html{
-    static public function generateTable($records) {
-
-        return $records = 'test';
+        return $array;
 
     }
 }
 
 
-class system{
-    static public function printPage($value) {
+class system
+{
+    static public function printPage($value)
+    {
 
         print_r($value);
 
