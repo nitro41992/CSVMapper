@@ -32,20 +32,20 @@ class csv {
 
 
             $records = array();
-            while(! feof($file)) {
+            while((! feof($file) and ($record = fgetcsv($file)) !== FALSE)) {
 
-                $record = fgetcsv($file);
                 if($count == 0) {
                     $fieldNames = $record;
 
                 }else{
-                    $records[] = recordFactory::create($fieldNames, $record);
+                    $records = recordFactory::create($fieldNames, $record);
                 }
                 $count++;
 
             }
 
             fclose($file);
+            //system::printPage($records);
             return $records;
 
         } else {
@@ -70,7 +70,7 @@ class record {
         }
 
         system::printPage($this);
-
+        return $this;
     }
     
     public function createProperty($name = null, $value = null){
