@@ -3,38 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>CSV Mapper</title>
-    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
 </head>
 <body>
 <div class="container">
     <table class="table table-striped">
-        <thead class="thead-dark">
-        <tr>
-        <?php
-        $table = main::start('Test.csv');
 
-        echo '<tr>';
-        foreach( $table[0] as $header )
-        {
-            echo '<th scope=\"col\">'.$header.'</th>';
-        }
-        echo '</tr>';
-        ?>
-        </tr>
-        </thead>
-        <tbody>
         <?php
-        foreach( $table as $tableRow )
-        {
-            echo '<tr>';
-            foreach( $tableRow as $row )
-            {
-                echo '<td>'.$row.'</td>';
+
+        $table = main::start('Test.csv');
+        $count = 0;
+        foreach ($table as $row) {
+            echo '<thead class="thead-dark">';
+
+            if ($count == 0) {
+                echo '<tr>';
+                foreach ($row as $header) {
+                    echo '<th scope=\"col\">' . $header . '</th>';
+                }
+                echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+            } else {
+                echo '<tr>';
+                foreach ($row as $value) {
+                    echo '<td>' . $value . '</td>';
+                }
+                echo '</tr>';
+                echo '</tbody>';
             }
-            echo '</tr>';
+            $count++;
         }
         ?>
-        </tbody>
+
     </table>
 </div>
 </body>
@@ -57,7 +58,7 @@ class main
 
         $records = csv::getRecords($file);
         $table = html::generateTable($records);
-        //system::printPage($table);
+//system::printPage($table);
         return $table;
 
     }
@@ -91,7 +92,7 @@ class csv
             }
 
             fclose($file);
-            //print_r($records);
+//print_r($records);
             return $records;
 
         } else {
@@ -119,8 +120,8 @@ class record
 
     public function returnArray()
     {
-        $array = (array) $this;
-        return($array) ;
+        $array = (array)$this;
+        return ($array);
 
     }
 
@@ -156,13 +157,13 @@ class html
         $fields = null;
         $count = 0;
         foreach ($records as $record) {
-            if ($count == 0){
+            if ($count == 0) {
                 $array = $record->returnArray();
                 $fields[] = array_keys($array);
-                //return $fields;
-                //print_r($fields);
+//return $fields;
+//print_r($fields);
 
-            }else {
+            } else {
                 $array = $record->returnArray();
                 $fields[] = array_values($array);
 
