@@ -2,24 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CSV Mapper</title>
-    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <title>csvMapper</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"/>
+
+
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 50px">
+    <a class="navbar-brand" href="#">csvMapper</a>
+</nav>
 <div class="container">
-    <table class="table table-striped">
-
+    <table class="table table-bordered">
         <?php
-
         $table = main::start('Test.csv');
         $count = 0;
+
         foreach ($table as $row) {
             echo '<thead class="thead-dark">';
 
             if ($count == 0) {
                 echo '<tr>';
                 foreach ($row as $header) {
-                    echo '<th scope=\"col\">' . $header . '</th>';
+                    echo '<th scope="col">' . $header . '</th>';
                 }
                 echo '</tr>';
                 echo '</thead>';
@@ -35,7 +39,6 @@
             $count++;
         }
         ?>
-
     </table>
 </div>
 </body>
