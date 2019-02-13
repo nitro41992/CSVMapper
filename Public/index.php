@@ -1,3 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSV Mapper</title>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+        <?php
+        $table = main::start('Test.csv');
+
+        echo '<tr>';
+        foreach( $table[0] as $header )
+        {
+            echo '<th scope=\"col\">'.$header.'</th>';
+        }
+        echo '</tr>';
+        ?>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach( $table as $tableRow )
+        {
+            echo '<tr>';
+            foreach( $tableRow as $row )
+            {
+                echo '<td>'.$row.'</td>';
+            }
+            echo '</tr>';
+        }
+        ?>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+
+
 <?php
 /**
  * Created by PhpStorm.
@@ -7,8 +50,6 @@
  */
 
 
-main::start('Test.csv');
-
 class main
 {
     static public function start($file)
@@ -16,8 +57,8 @@ class main
 
         $records = csv::getRecords($file);
         $table = html::generateTable($records);
-        system::printPage($table);
-
+        //system::printPage($table);
+        return $table;
 
     }
 
@@ -50,6 +91,7 @@ class csv
             }
 
             fclose($file);
+            //print_r($records);
             return $records;
 
         } else {
@@ -111,22 +153,24 @@ class html
 
         $array = null;
         $keys = null;
+        $fields = null;
         $count = 0;
         foreach ($records as $record) {
             if ($count == 0){
                 $array = $record->returnArray();
-                $fields = array_keys($array);
-
-                print_r($fields);
+                $fields[] = array_keys($array);
+                //return $fields;
+                //print_r($fields);
 
             }else {
                 $array = $record->returnArray();
-                $values = array_values($array);
-                print_r($values);
+                $fields[] = array_values($array);
+
 
             }
             $count++;
         }
+        return $fields;
 
     }
 }
