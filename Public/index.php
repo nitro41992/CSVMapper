@@ -12,18 +12,18 @@
     <a class="navbar-brand" href="#">csvMapper</a>
 </nav>
 <div class="container">
-    <table class="table table-bordered">
+    <table class="table table-striped table-bordered">
         <?php
         $table = main::start('Test.csv');
         $count = 0;
-
+        echo '<thead class="thead-dark">';
         foreach ($table as $row) {
-            echo '<thead class="thead-dark">';
 
             if ($count == 0) {
                 echo '<tr>';
                 foreach ($row as $header) {
                     echo '<th scope="col">' . $header . '</th>';
+
                 }
                 echo '</tr>';
                 echo '</thead>';
@@ -34,10 +34,11 @@
                     echo '<td>' . $value . '</td>';
                 }
                 echo '</tr>';
-                echo '</tbody>';
+
             }
             $count++;
         }
+        echo '</tbody>';
         ?>
     </table>
 </div>
