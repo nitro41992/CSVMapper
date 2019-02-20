@@ -1,28 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>csvMapper</title>
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"/>
-
-
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 50px">
-    <a class="navbar-brand" href="#">csvMapper</a>
-</nav>
-<div class="container">
-    <table class="table table-striped table-bordered">
-        <?php
-        $table = main::start('Test.csv');
-        system::printPage($table);
-        ?>
-    </table>
-</div>
-</body>
-</html>
-
-
 <?php
 /**
  * Created by PhpStorm.
@@ -30,6 +5,9 @@
  * Date: 2/7/19
  * Time: 9:23 PM
  */
+
+$table = main::start('Test.csv');
+system::printPage($table);
 
 
 class main
@@ -151,37 +129,48 @@ class html
         }
 
         $count = 0;
-        $htmlArray[] = '<thead class="thead-dark">';
+        $html = null;
+        $html .= '<!DOCTYPE html>'.
+            '<html lang="en">'.
+            '<head>'.
+            '<meta charset="UTF-8">'.
+            '<title>csvMapper</title>'.
+            '<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"/>'.
+            '</head>'.
+            '<body>'.
+            '<nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 50px">'.
+            '<a class="navbar-brand" href="#">csvMapper</a>'.
+            '</nav>'.
+            '<div class="container">'.
+            '<table class="table table-striped table-bordered">'.
+            '<thead class="thead-dark">';
+
         foreach ($fields as $row) {
 
             if ($count == 0) {
-                $htmlArray[] =  '<tr>';
+                $html .=  '<tr>';
                 foreach ($row as $header) {
-                    $htmlArray[] =  '<th scope="col">' . $header . '</th>';
+                    $html .=  '<th scope="col">' . $header . '</th>';
 
                 }
-                $htmlArray[] =  '</tr>';
-                $htmlArray[] =  '</thead>';
-                $htmlArray[] =  '<tbody>';
+                $html .=  '</tr>'.'</thead>'.'<tbody>';
+
             } else {
-                $htmlArray[] =  '<tr>';
+                $html .= '<tr>';
                 foreach ($row as $value) {
-                    $htmlArray[] =  '<td>' . $value . '</td>';
+                    $html .=  '<td>' . $value . '</td>';
                 }
-                $htmlArray[] =  '</tr>';
+                $html .=  '</tr>';
 
             }
             $count++;
         }
-        $htmlArray[] =  '</tbody>';
-
-        $html = implode($htmlArray);
+        $html .=  '</tbody>'.'</table>'.'</div>'.'</body>'.'</html>';
 
         return($html);
 
     }
 }
-
 
 class system
 {
