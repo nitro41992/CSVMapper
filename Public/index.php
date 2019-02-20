@@ -15,30 +15,7 @@
     <table class="table table-striped table-bordered">
         <?php
         $table = main::start('Test.csv');
-        $count = 0;
-        echo '<thead class="thead-dark">';
-        foreach ($table as $row) {
-
-            if ($count == 0) {
-                echo '<tr>';
-                foreach ($row as $header) {
-                    echo '<th scope="col">' . $header . '</th>';
-
-                }
-                echo '</tr>';
-                echo '</thead>';
-                echo '<tbody>';
-            } else {
-                echo '<tr>';
-                foreach ($row as $value) {
-                    echo '<td>' . $value . '</td>';
-                }
-                echo '</tr>';
-
-            }
-            $count++;
-        }
-        echo '</tbody>';
+        system::printPage($table);
         ?>
     </table>
 </div>
@@ -62,7 +39,6 @@ class main
 
         $records = csv::getRecords($file);
         $table = html::generateTable($records);
-//system::printPage($table);
         return $table;
 
     }
@@ -96,7 +72,6 @@ class csv
             }
 
             fclose($file);
-//print_r($records);
             return $records;
 
         } else {
@@ -164,8 +139,7 @@ class html
             if ($count == 0) {
                 $array = $record->returnArray();
                 $fields[] = array_keys($array);
-//return $fields;
-//print_r($fields);
+
 
             } else {
                 $array = $record->returnArray();
@@ -175,7 +149,35 @@ class html
             }
             $count++;
         }
-        return $fields;
+
+        $count = 0;
+        $htmlArray[] = '<thead class="thead-dark">';
+        foreach ($fields as $row) {
+
+            if ($count == 0) {
+                $htmlArray[] =  '<tr>';
+                foreach ($row as $header) {
+                    $htmlArray[] =  '<th scope="col">' . $header . '</th>';
+
+                }
+                $htmlArray[] =  '</tr>';
+                $htmlArray[] =  '</thead>';
+                $htmlArray[] =  '<tbody>';
+            } else {
+                $htmlArray[] =  '<tr>';
+                foreach ($row as $value) {
+                    $htmlArray[] =  '<td>' . $value . '</td>';
+                }
+                $htmlArray[] =  '</tr>';
+
+            }
+            $count++;
+        }
+        $htmlArray[] =  '</tbody>';
+
+        $html = implode($htmlArray);
+
+        return($html);
 
     }
 }
